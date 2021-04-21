@@ -1,21 +1,55 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import Home from './screens/Home';
+import { ColorPalette, IColorPaletteProps } from './screens/ColorPalette';
+import { RouteProp } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { ColorPaletteModal, ModalProps } from './screens/ColorPaletteModal';
 
-export default function App() {
+const RootStack = createStackNavigator();
+
+export type RootStackParamList = {
+  Home: undefined;
+  ColorPalette: IColorPaletteProps;
+  ColorPaletteModal: ModalProps;
+};
+
+export type RootRouteProps<
+  RouteName extends keyof RootStackParamList
+> = RouteProp<RootStackParamList, RouteName>;
+
+const MainStack = createStackNavigator<RootStackParamList>();
+
+const MainStackScreen = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <MainStack.Navigator>
+      <MainStack.Screen name="Home" component={Home} />
+      <MainStack.Screen
+        name="ColorPalette"
+        component={ColorPalette}
+        options={({ route }) => ({ title: route.params.paletteName })}
+      />
+    </MainStack.Navigator>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const App = () => {
+  return (
+    <NavigationContainer>
+      <RootStack.Navigator mode="modal">
+        <RootStack.Screen
+          name="Main"
+          component={MainStackScreen}
+          options={{ headerShown: false }}
+        />
+        <RootStack.Screen
+          name="ColorPaletteModal"
+          component={ColorPaletteModal}
+          options={{ headerShown: false }}
+        />
+      </RootStack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default App;
