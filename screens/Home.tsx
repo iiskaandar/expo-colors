@@ -51,6 +51,7 @@ const Home = () => {
         keyExtractor={(item) => item.paletteName}
         renderItem={({ item }) => (
           <TouchableOpacity
+            style={styles.box_container}
             onPress={() => {
               navigation.navigate('ColorPalette', {
                 colors: item.colors,
@@ -64,6 +65,7 @@ const Home = () => {
               keyExtractor={(colors) => colors.colorName}
               renderItem={({ item }) => <ColorSquare color={item.hexCode} />}
               horizontal={true}
+              initialNumToRender={5}
             />
           </TouchableOpacity>
         )}
@@ -78,7 +80,7 @@ const Home = () => {
               });
             }}
           >
-            <Text>Add a color scheme</Text>
+            <Text style={styles.text}>Add a color scheme</Text>
           </TouchableOpacity>
         }
       />
@@ -90,11 +92,23 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 18,
     fontWeight: 'bold',
+    paddingBottom: 5,
   },
   container: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     paddingVertical: 30,
+    paddingHorizontal: 15,
     backgroundColor: 'white',
+  },
+  text: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#3FB8AF',
+    paddingBottom: 20,
+  },
+  box_container: {
+    maxWidth: 170,
+    marginBottom: 20,
   },
 });
 
