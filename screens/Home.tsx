@@ -20,6 +20,7 @@ const Home = () => {
     const result = await fetch(
       'https://color-palette-api.kadikraman.now.sh/palettes',
     );
+    console.log('new colors');
     const colorPalettesList = await result.json();
     if (result.ok) {
       setColorPalettes(colorPalettesList);
