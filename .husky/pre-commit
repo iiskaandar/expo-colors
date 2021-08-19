@@ -4,7 +4,7 @@
 npx lint-staged
 readonly branch_name=`git branch | sed -n '/\* /s///p'`
 echo $branch_name
-if [ "$branch_name" = "main" ]; then
+if [ $branch_name = "main" ]; then
     echo "You can't commit to main branch, please checkout to another branch, skipping hook"
     exit 0
 fi
