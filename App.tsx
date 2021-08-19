@@ -21,6 +21,7 @@ export type RootRouteProps<
 const MainStack = createStackNavigator<RootStackParamList>();
 
 const MainStackScreen = () => {
+  console.log('new app');
   return (
     <MainStack.Navigator>
       <MainStack.Screen name="Home" component={Home} />
