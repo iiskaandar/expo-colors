@@ -11,6 +11,7 @@ export interface IColorPaletteProps {
 
 export const ColorPalette = () => {
   const route = useRoute<RootRouteProps<'ColorPalette'>>();
+  console.log('new color palette');
   return (
     <FlatList
       data={route.params.colors}
