@@ -8,7 +8,7 @@ export interface IColorPaletteProps {
   colors: { colorName: string; hexCode: string }[];
   paletteName: string;
 }
-console.log('commit na mainie');
+console.log('commit na main');
 export const ColorPalette = () => {
   const route = useRoute<RootRouteProps<'ColorPalette'>>();
   console.log('new color palette');
