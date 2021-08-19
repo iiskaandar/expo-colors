@@ -22,6 +22,7 @@ const MainStack = createStackNavigator<RootStackParamList>();
 
 const MainStackScreen = () => {
   console.log('new app');
+  console.log('new app app');
   return (
     <MainStack.Navigator>
       <MainStack.Screen name="Home" component={Home} />
