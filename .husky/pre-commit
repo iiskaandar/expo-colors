@@ -2,7 +2,7 @@
 . "$(dirname "$0")/_/husky.sh"
 
 npx lint-staged
-readonly branch_name=git branch
+readonly branch_name=`git branch | grep "*"`
 echo $branch_name
 if [ "$branch_name" = "main" ]; then
     debug "You can't commit to main branch, please checkout to another branch, skipping hook"
