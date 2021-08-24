@@ -2,8 +2,9 @@
 . "$(dirname "$0")/_/husky.sh"
 
 npx lint-staged
-readonly branch_name=git branch
-if [ "$branch_name" = "main" ]; then
-    debug "You can't commit to main branch, please checkout to another branch, skipping hook"
-    exit 0
+readonly branch_name=`git branch | sed -n '/\* /s///p'`
+echo $branch_name
+if [ $branch_name = "main" ]; then
+    echo "You can't commit to main branch, please checkout to another branch, skipping hook"
+    exit 1
 fi
