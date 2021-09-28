@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import {
   View,
-  TextInput,
   Text,
   StyleSheet,
   FlatList,
-  Switch,
-  Button,
   ScrollView,
   Alert,
 } from 'react-native';
+import { Button, TextInput, Switch } from 'react-native-paper';
 import { IColorPaletteProps } from './ColorPalette';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { RootRouteProps } from '../App';
@@ -17,6 +15,9 @@ import { COLORS } from '../globals/colors';
 
 export interface ModalProps {
   updateData: (colorPalette: IColorPaletteProps) => void;
+  paletteName?: string;
+  colors?: { colorName: string; hexCode: string }[];
+  updatePalette?: (colorPalette: IColorPaletteProps) => void;
 }
 
 const showAlert = () =>
@@ -40,19 +41,26 @@ const showAlert = () =>
   );
 
 export const ColorPaletteModal = () => {
-  const [name, setName] = useState('');
+  const route = useRoute<RootRouteProps<'ColorPaletteModal'>>();
+  const [name, setName] = useState(route.params.paletteName || '');
   const [checkedColors, setCheckedColorsList] = useState<
     { colorName: string; hexCode: string }[]
-  >([]);
+  >(route.params.colors || []);
   const navigation = useNavigation();
-  const route = useRoute<RootRouteProps<'ColorPaletteModal'>>();
 
   const checkValidity = () => {
     if (name !== '' && checkedColors.length > 2) {
-      route.params.updateData({
-        colors: checkedColors,
-        paletteName: name,
-      });
+      if (route.params.updatePalette) {
+        route.params.updatePalette({
+          colors: checkedColors,
+          paletteName: name,
+        });
+      } else {
+        route.params.updateData({
+          colors: checkedColors,
+          paletteName: name,
+        });
+      }
       navigation.goBack();
     } else {
       showAlert();
@@ -60,11 +68,11 @@ export const ColorPaletteModal = () => {
   };
   return (
     <View style={styles.container}>
-      <Text>Name of your palette</Text>
       <TextInput
         value={name}
         onChangeText={setName}
         style={styles.input}
+        mode={'outlined'}
         placeholder="Palette name"
       />
       <ScrollView style={styles.scrollView}>
@@ -97,26 +105,26 @@ export const ColorPaletteModal = () => {
       </ScrollView>
       <Button
         onPress={checkValidity}
-        title="Submit"
-        color="#3FB8AF"
+        mode="contained"
         accessibilityLabel="Submit form"
-      />
+        disabled={!(name !== '' && checkedColors.length > 2)}
+      >
+        Submit
+      </Button>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   input: {
-    borderWidth: 1,
-    paddingHorizontal: 10,
-    marginVertical: 10,
+    marginBottom: 20,
   },
   container: {
     marginTop: 60,
     marginHorizontal: 10,
   },
   scrollView: {
-    maxHeight: 530,
+    maxHeight: 520,
     paddingBottom: 20,
   },
   viewContainer: {

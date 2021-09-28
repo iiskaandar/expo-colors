@@ -20,7 +20,6 @@ const Home = () => {
     const result = await fetch(
       'https://color-palette-api.kadikraman.now.sh/palettes',
     );
-    console.log('new colors');
     const colorPalettesList = await result.json();
     if (result.ok) {
       setColorPalettes(colorPalettesList);
@@ -31,6 +30,17 @@ const Home = () => {
     if (colorPalettes) {
       setColorPalettes([customPalette, ...colorPalettes]);
     }
+  };
+
+  const updatePalette = (customPalette: IColorPaletteProps) => {
+    let palettes = colorPalettes.map((palette) => {
+      if (palette.paletteName === customPalette.paletteName) {
+        return customPalette;
+      }
+      return palette;
+    });
+    console.log(palettes);
+    setColorPalettes([...palettes]);
   };
 
   useEffect(() => {
@@ -57,6 +67,7 @@ const Home = () => {
               navigation.navigate('ColorPalette', {
                 colors: item.colors,
                 paletteName: item.paletteName,
+                updatePalette: updatePalette,
               });
             }}
           >
