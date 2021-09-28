@@ -48,7 +48,7 @@ export const ColorPaletteModal = () => {
   const route = useRoute<RootRouteProps<'ColorPaletteModal'>>();
 
   const checkValidity = () => {
-    if (name !== '' && checkedColors > 2) {
+    if (name !== '' && checkedColors.length > 2) {
       route.params.updateData({
         colors: checkedColors,
         paletteName: name,
